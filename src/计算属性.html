@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <p>{{message}}</p>
+    <p>{{reversedMessage}}</p>
+</div>
+<script>
+    let vw = new Vue({
+        el: "#app",
+        data: function () {
+            return {
+                message: "test"
+            }
+        },
+        computed: {
+            reversedMessage: function () {
+                return this.message.split("").reverse().join("");
+            }
+        }
+    });
+</script>
+</body>
+</html>

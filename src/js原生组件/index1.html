@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>作用域隔离</title>
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script>
+        let textCount = {
+            input: null,
+            init: function (config) {
+                this.input = $(config.id);
+                this.bind();
+                return this;
+            },
+            bind: function () {
+                let self = this;
+                self.input.on('keyup', function () {
+                    self.render();
+                });
+            },
+            getNum: function () {
+                return this.input.val().length;
+            },
+            render: function () {
+                let num = this.getNum();
+
+                if ($('#J_input_count').length == 0) {
+                    this.input.after('<span id="J_input_count"></span>');
+                }
+
+                $('#J_input_count').html(num + '个字');
+            }
+        };
+
+        $(function () {
+            textCount.init({id: "#J_input"}).render();
+        })
+    </script>
+</head>
+<body>
+<input type="text" title="" id="J_input"/>
+</body>
+</html>

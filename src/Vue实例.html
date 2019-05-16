@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">{{$data}}</div>
+<script>
+    let data = {
+        a: 1
+    };
+    let vm = new Vue({
+        el: "#app",
+        data: data,
+        beforeCreate: function () {
+            console.log("beforeCreate");
+        },
+        created: function () {
+            console.log("created");
+        },
+        beforeMount: function () {
+            console.log("beforeMount");
+        },
+        mounted: function () {
+            console.log("mounted");
+        },
+        beforeUpdate: function () {
+            console.log("beforeUpdate");
+        },
+        updated: function () {
+            console.log("updated");
+        },
+        beforeDestroy: function () {
+            console.log("beforeDestroy");
+        },
+        destroyed: function () {
+            console.log("destroyed");
+        }
+    });
+</script>
+</body>
+</html>

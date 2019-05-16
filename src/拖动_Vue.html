@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <drag>拖动我</drag>
+</div>
+<script>
+    // 定义一个名为 button-counter 的新组件
+    Vue.component('Drag', {
+        data: function () {
+            return {}
+        },
+        mounted: function () {
+            let dragEle = this.$refs.drag;
+            dragEle.addEventListener("touchmove", function (touchEvent) {
+                let innerWidth = window.innerWidth;
+                let innerHeight = window.innerHeight;
+                let width = touchEvent.currentTarget.offsetWidth;
+                let height = touchEvent.currentTarget.offsetHeight;
+                let touchWidth = touchEvent.touches[0].clientX;
+                let touchHeight = touchEvent.touches[0].clientY;
+                // TODO 以点击位置拖动
+                // 以元素中心位置拖动
+                touchWidth = touchWidth - width / 2;
+                touchHeight = touchHeight - height / 2;
+                // 处理元素显示越界
+                if (touchWidth < 0) {
+                    touchWidth = 0;
+                }
+                if (touchHeight < 0) {
+                    touchHeight = 0;
+                }
+                if (touchWidth > innerWidth - width) {
+                    touchWidth = innerWidth - width;
+                }
+                if (touchHeight > innerHeight - height) {
+                    touchHeight = innerHeight - height;
+                }
+                // 移动元素
+                touchEvent.currentTarget.style.left = touchWidth + "px";
+                touchEvent.currentTarget.style.top = touchHeight + "px";
+            });
+        },
+        template: ''
+    });
+    let data = {
+        a: 1
+    };
+    let vm = new Vue({
+        el: "#app",
+        data: data,
+    });
+</script>
+</body>
+</html>
