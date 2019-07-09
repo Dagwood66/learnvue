@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <input type="text" v-model="text" title="">{{text}}
+</div>
+<script>
+    function Vue(option) {
+        let id, dom;
+        this.data = option.data;
+        id = option.el;
+        dom = nodeToFragment(document.querySelector(id), this);
+        document.querySelector(id).appendChild(dom);
+    }
+
+    function nodeToFragment(node, vm) {
+        let fragment = document.createDocumentFragment();
+        let child;
+        while (child = node.firstChild) { // 获取第一个节点
+            compile(child, vm);
+            fragment.appendChild(child); // 移除当前节点到Fragment
+        }
+        return fragment;
+    }
+
+
+    function compile(node, vm) {
+        let reg = /{{(.*)}}/;
+
+        if (node.nodeType === 1) { // element
+            let attr = node.attributes;
+            for (let i = 0; i < attr.length; i++) {
+                if (attr[i].nodeName == "v-model") { // v-model 属性
+                    let name = attr[i].nodeValue;
+                    node.value = vm.data[name]; // 节点赋值
+                    node.removeAttribute("v-model");
+                }
+            }
+        }
+        if (node.nodeType === 3) { // text
+            if (reg.test(node.nodeValue)) {
+                let name = RegExp.$1;
+                name = name.trim();
+                node.nodeValue = vm.data[name]; // 文本赋值
+            }
+        }
+    }
+
+    let vm = new Vue({
+        el: "#app",
+        data: {
+            text: "Hello World"
+        }
+    });
+</script>
+</body>
+</html>

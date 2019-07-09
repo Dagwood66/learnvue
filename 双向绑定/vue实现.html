@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <input type="text" v-model="text" title="">{{text}}
+</div>
+<script>
+    function Vue(option) {
+        let id, dom;
+        this.data = option.data;
+        id = option.el;
+        dom = nodeToFragment(document.querySelector(id), this);
+        document.querySelector(id).appendChild(dom);
+    }
+
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            text: "Hello World"
+        }
+    });
+
+    let dom = nodeToFragment(document.getElementById("app"));
+
+    function nodeToFragment(node, vm) {
+        var flag = document.createDocumentFragment();
+        var child;
+        while (child = node.firstChild) {
+            compile(child, vm);
+            flag.appendChild(child);
+        }
+        return flag;
+    }
+
+    document.getElementById("app").appendChild(dom);
+
+    function compile(node, vm) {
+        var reg = /{{(.*)}}/;
+
+        if (node.nodeType === 1) {
+            var attr = node.attributes;
+            for (var i = 0; i < attr.length; i++) {
+                if (attr[i].nodeName == "v-model") {
+                    let name = attr[i].nodeValue;
+                    node.value = vm.data[name];
+                    node.removeAttribute("v-model");
+                }
+            }
+        }
+        if (node.nodeType === 3) {
+            if (reg.test(node.nodeValue)) {
+                var name = RegExp.$1;
+                name = name.trim();
+                node.nodeValue = vm.data[name];
+            }
+        }
+    }
+</script>
+</body>
+</html>

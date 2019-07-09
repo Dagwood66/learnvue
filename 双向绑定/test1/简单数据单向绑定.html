@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<input id="a">
+<script>
+    var a = {
+        text: ""
+    };
+    let ele = document.querySelector("#a");
+
+    Object.defineProperty(a, "text", {
+        get: function () {
+            return ele.value;
+        },
+        set: function (newValue) {
+            ele.value = newValue;
+        }
+    });
+</script>
+</body>
+</html>

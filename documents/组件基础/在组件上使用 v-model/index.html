@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <input v-model="searchText">
+    <input v-bind:value="searchText" v-on:input="searchText = $event.target.value">
+    <custom-input v-bind:value="searchText" v-on:input="searchText=$event"></custom-input>
+    <custom-input v-model="search通过插槽分发内容Text"></custom-input>
+</div>
+<script>
+    Vue.component("custom-input", {
+        props: ["value"],
+        template: `
+            <input v-bind:value="value" v-on:input="$emit('input',$event.target.value)"/>
+        `
+    });
+
+    let app = new Vue({
+        el: "#app",
+        data: {
+            searchText: ""
+        }
+    });
+</script>
+</body>
+</html>

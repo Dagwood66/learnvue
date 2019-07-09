@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <input type="text" v-model="text" title="">{{text}}
+</div>
+<script>
+    function Vue(option) {
+        let id, dom, data;
+        data = option.data;
+        id = option.el;
+        this.data = data;
+
+        observe(data, this);
+
+        dom = nodeToFragment(document.querySelector(id), this);
+        document.querySelector(id).appendChild(dom);
+    }
+
+    function observe(obj, vm) {
+        Object.keys(obj).forEach(function (key) {
+            defineReactive(vm, key, obj[key]); // 把data中的属性绑定到vm上
+        });
+    }
+
+    function defineReactive(obj, key, val) {
+        Object.defineProperty(obj, key, {
+            get: function () {
+                return val;
+            },
+            set: function (newVal) {
+                console.log(newVal);
+                val = newVal;
+            }
+        })
+    }
+
+    function nodeToFragment(node, vm) {
+        let fragment = document.createDocumentFragment();
+        let child;
+        while (child = node.firstChild) { // 获取第一个节点
+            compile(child, vm);
+            fragment.appendChild(child); // 移除当前节点到Fragment
+        }
+        return fragment;
+    }
+
+
+    function compile(node, vm) {
+        let reg = /{{(.*)}}/;
+
+        if (node.nodeType === 1) { // element
+            let attr = node.attributes;
+            for (let i = 0; i < attr.length; i++) {
+                if (attr[i].nodeName == "v-model") { // v-model 属性
+                    let name = attr[i].nodeValue;
+                    node.addEventListener("input", function (e) {
+                        vm[name] = e.target.value;
+                    });
+                    node.value = vm[name]; // 节点赋值
+                    node.removeAttribute("v-model");
+                }
+            }
+        }
+        if (node.nodeType === 3) { // text
+            if (reg.test(node.nodeValue)) {
+                let name = RegExp.$1;
+                name = name.trim();
+                node.nodeValue = vm[name]; // 文本赋值
+            }
+        }
+    }
+
+    let vm = new Vue({
+        el: "#app",
+        data: {
+            text: "Hello World"
+        }
+    });
+</script>
+</body>
+</html>
