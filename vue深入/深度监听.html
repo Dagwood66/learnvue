@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>深度监听.html</title>
+</head>
+<body>
+<div id="app">
+    <input type="text" title="" v-model="inputValue">
+    <div>inputValue:{{inputValue}}</div>
+    <input type="text" title="" v-model="obj.inputValue">
+    <div>obj.inputValue:{{obj.inputValue}}</div>
+    <div>
+        <button type="button" @click="arr.push(Math.random())">添加</button>
+        <button type="button" @click="arr.pop()">删除</button>
+        <button type="button" @click="Vue.set(arr,0,Math.random())">修改</button>
+        <button type="button" @click="arr.push({a:Math.random()})">数组添加对象</button>
+        <button type="button" @click="arr[arr.length-1].a=Math.random()">修改数组中的对象</button>
+    </div>
+    <div>
+        arr:{{arr}}
+    </div>
+    <pre>
+        方式1：监听嵌套对象/数组
+            watch:{
+                obj:{
+                    handler:function(newObj,oldObj){
+                    },
+                    deep:true
+                },
+                arr:{
+                    handler:function(newArr,oldArr){
+                    },
+                    deep:true
+                }
+            }
+        方式2：监听嵌套对象属性
+            watch:{
+                "obj.key":function(newVal,oldVal){
+                }
+            }
+    </pre>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script>
+    let vm = new Vue({
+        el: "#app",
+        data: {
+            inputValue: "",
+            obj: {
+                inputValue: "",
+            },
+            arr: []
+        },
+        mounted: function () {
+        },
+        watch: {
+            inputValue: function (newVal, oldVal) { // 监听属性
+                console.log("inputValue--------------------------------------");
+                console.log("newVal:" + newVal);
+                console.log("oldVal:" + oldVal);
+            },
+            obj: { // 监听嵌套对象内的变化
+                // 1. 对象
+                // 2. handler 处理函数
+                // 3. deep:true
+                handler: function (newObj, oldObj) {
+                    console.log("obj--------------------------------------");
+                    console.log("newObj:" + newObj);
+                    console.log("oldObj:" + oldObj);
+                },
+                deep: true,
+            },
+            "obj.inputValue": function (newVal, oldVal) { // 监听嵌套对象属性(对象为空时报错)
+                // 1. 属性嵌套
+                console.log("obj.inputValue--------------------------------------");
+                console.log("newVal:" + newVal);
+                console.log("oldVal:" + oldVal);
+            },
+            // arr: function (newArr, oldArr) { // 监听数组增删改
+            //     console.log("arr--------------------------------------");
+            //     console.log("newArr:" + newArr);
+            //     console.log("oldArr:" + oldArr);
+            // },
+            arr:{ // 监听数组内对象修改
+                handler: function (newObj, oldObj) {
+                    console.log("arr:keep--------------------------------------");
+                    console.log("newObj:" + newObj);
+                    console.log("oldObj:" + oldObj);
+                },
+                deep: true,
+            }
+        }
+    });
+</script>
+</body>
+</html>
