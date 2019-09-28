@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        .wrapper {
+            position: relative;
+            height: 100px;
+            white-space: nowrap;
+            word-break: keep-all;
+            overflow: hidden;
+        }
+
+        .item {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div ref="content" class="wrapper">
+        <span class="item" ref="test">测试</span>
+    </div>
+</div>
+<script>
+    // 控制每秒滚动像素
+    //      1秒60帧
+    //      60帧*1像素=60像素
+    //      60帧*(n)像素=(m)像素
+    new Vue({
+        el: "#app",
+        data: {
+            secondPx: 100, // 每秒像素
+            stepPx: 1, // 每帧滚动像素,
+        },
+        mounted() {
+            // 初始化每帧移动像素
+            this.stepPx = this.secondPx / 60;
+            this.resetPosition();
+            this.movePosition();
+        },
+        methods: {
+            movePosition() {// 移动位置
+                window.requestAnimationFrame(() => {
+                    let testEle = this.$refs.test;
+                    // testEle.offsetLeft 会导致计算错误
+                    let offsetLeft = testEle.style.left.replace("px", "");
+                    offsetLeft -= this.stepPx;
+
+                    testEle.style.left = offsetLeft + "px";
+                    this.checkedEnd();
+                });
+            },
+            resetPosition() { // 初始化弹幕起始位置
+                let contentEle = this.$refs.content;
+                let testEle = this.$refs.test;
+                let contentWidth = contentEle.offsetWidth;
+
+                testEle.style.left = contentWidth + "px";
+            },
+            checkedEnd() { // 检查是否结束
+                let testEle = this.$refs.test;
+                let textWidth = testEle.offsetWidth;
+                let offsetLeft = testEle.offsetLeft;
+
+                if ((textWidth + offsetLeft) > 0) {
+                    this.movePosition(); // 开始
+                } else {
+                    this.resetPosition(); // 重置位置
+                    this.movePosition(); // 开始
+                }
+            }
+        },
+    })
+</script>
+</body>
+</html>

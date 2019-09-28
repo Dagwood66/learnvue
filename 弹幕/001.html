@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        .wrapper {
+            position: relative;
+            height: 100px;
+            white-space: nowrap;
+            word-break: keep-all;
+            overflow: hidden;
+        }
+
+        .item {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div ref="content" class="wrapper">
+        <span class="item" ref="test">测试</span>
+    </div>
+</div>
+<script>
+    // 动态橫向滚动实现
+    new Vue({
+        el: "#app",
+        data: {
+            interval: null,
+        },
+        mounted() {
+            let contentEle = this.$refs.content;
+            let testEle = this.$refs.test;
+
+            let contentWidth = contentEle.offsetWidth;
+            let textWidth = testEle.offsetWidth;
+
+            // 初始化弹幕位置
+            testEle.style.left = contentWidth + "px";
+            // 移动位置
+            this.interval = setInterval(() => {
+                let offsetLeft = testEle.offsetLeft;
+                offsetLeft -= 5;
+                testEle.style.left = offsetLeft + "px";
+                // 判断是否结束
+                if ((textWidth + offsetLeft) < 0) {
+                    clearInterval(this.interval);
+                }
+            }, 70);
+        },
+        methods: {},
+        destroyed() {
+            clearInterval(this.interval);
+        },
+    })
+</script>
+</body>
+</html>

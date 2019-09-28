@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        .wrapper {
+            position: relative;
+            height: 100px;
+            white-space: nowrap;
+            word-break: keep-all;
+            overflow: hidden;
+        }
+
+        .item {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div ref="content" class="wrapper">
+        <p class="item" ref="test">
+            <span :style="{paddingLeft: item.left+'px'}" v-for="item in textList">{{item.text}}</span>
+        </p>
+    </div>
+    <input type="text" title="" v-model="inputVal">
+    <button type="button" @click="addItem">提交</button>
+    <ul>
+        <li v-for="item in textList">{{item.text}}</li>
+    </ul>
+</div>
+<script>
+    // 单行多条
+    new Vue({
+        el: "#app",
+        data: {
+            secondPx: 60, // 每秒像素
+            stepPx: 1, // 每帧滚动像素,
+            text: "", // 弹幕文字
+            textList: [],
+            inputVal: "我是测试文字",
+        },
+        mounted() {
+            // 初始化每帧移动像素
+            this.stepPx = this.secondPx / 60;
+            this.resetText();
+            this.resetPosition();
+            this.movePosition();
+        },
+        methods: {
+            movePosition() {// 移动位置
+                window.requestAnimationFrame(() => {
+                    let testEle = this.$refs.test;
+                    // testEle.offsetLeft 会导致计算错误
+                    let offsetLeft = testEle.style.left.replace("px", "");
+                    offsetLeft -= this.stepPx;
+
+                    testEle.style.left = offsetLeft + "px";
+
+                    this.checkedEnd();
+                });
+            },
+            resetPosition() { // 初始化弹幕起始位置
+                let contentEle = this.$refs.content;
+                let testEle = this.$refs.test;
+                let contentWidth = contentEle.offsetWidth;
+
+                testEle.style.left = contentWidth + "px";
+            },
+            checkedEnd() { // 检查是否结束
+                let testEle = this.$refs.test;
+                let textWidth = testEle.offsetWidth;
+                let offsetLeft = testEle.offsetLeft;
+
+                if ((textWidth + offsetLeft) > 0) {
+                    this.movePosition(); // 继续滚动
+                } else {
+                    this.resetText(); // 重置滚动文字
+                    this.resetPosition(); // 重置位置
+                    this.movePosition(); // 开始
+                }
+            },
+            resetText() {
+                this.text = this.inputVal;
+            },
+            addItem() {
+                let contentEle = this.$refs.content;
+                let contentEleWidth = contentEle.offsetWidth;
+                let testEle = this.$refs.test;
+                let textWidth = testEle.offsetWidth;
+                let offsetLeft = testEle.offsetLeft;
+
+                let left = contentEleWidth - (textWidth + offsetLeft);
+
+                if (left < 0) {
+                    left = 40; // 默认40px
+                }
+
+                this.textList.push({
+                    left: left,
+                    text: this.inputVal
+                });
+            },
+            getContentWidth() {
+                return this.$refs.content.offsetWidth;
+            }
+        },
+    })
+</script>
+</body>
+</html>
