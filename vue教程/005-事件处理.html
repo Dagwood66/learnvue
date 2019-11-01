@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>005-事件处理.html</title>
+</head>
+<body>
+<div id="app">
+    <button @click="greet">不带参(默认事件event)</button>
+    <button @click="greet(1)">带参(不含事件event)</button>
+    <button @click="greet($event,1)">带参(点击事件event,自定义参数)</button>
+</div>
+<script src="lib/vue.js"></script>
+<script>
+    window.vm = new Vue({
+        el: "#app",
+        data: {},
+        methods: {
+            greet() {
+                console.log(arguments);
+            }
+        }
+    });
+</script>
+</body>
+</html>

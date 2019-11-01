@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>002-计算属性.html</title>
+</head>
+<body>
+<div id="app">
+    <input type="text" title="" v-model="inputValue">
+    <div>
+        <h3>1. 表达式方式</h3>
+        <div>{{inputValue.split("").reverse().join("")}}</div>
+    </div>
+    <div>
+        <h3>2. 计算属性</h3>
+        <div>{{computedMessage}}</div>
+    </div>
+    <div>
+        <h3>3. 方法</h3>
+        <div>{{methodMessage()}}</div>
+    </div>
+    <div>
+        <h3>4. 监听</h3>
+        <div>{{watchInputValue}}</div>
+    </div>
+</div>
+<script src="lib/vue.js"></script>
+<script>
+    /**
+     * 1. 表达式不易维护
+     * 2. 计算属性只会在依赖变化时才会重新计算(使用时不能加())
+     * 3. 方法实时计算(使用时需要加())
+     * 4. 监听(更适用于异步等)(初始化不会触发监听)
+     *
+     * */
+    let vm = new Vue({
+        el: "#app",
+        data: {
+            inputValue: "翻转字符串",
+            watchInputValue: ""
+        },
+        computed: {
+            computedMessage() {
+                return this.inputValue.split("").reverse().join("");
+            }
+        },
+        mounted() {
+        },
+        methods: {
+            methodMessage() {
+                return this.inputValue.split("").reverse().join("");
+            }
+        },
+        watch: {
+            inputValue() {
+                this.watchInputValue = this.inputValue.split("").reverse().join("");
+            }
+        }
+    });
+</script>
+</body>
+</html>

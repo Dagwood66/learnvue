@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>006-表单输入绑定.html</title>
+    <style>
+        div {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <form>
+        <div>
+            <label>
+                <input type="text" title="" alt="" v-model="inputValue">
+            </label>
+        </div>
+        <div>
+            <label><input type="radio" title="" v-model="radioValue" value="1">单选1</label>
+            <label><input type="radio" title="" v-model="radioValue" value="2">单选2</label>
+            <label><input type="radio" title="" v-model="radioValue" value="3">单选3</label>
+        </div>
+        <div>
+            <label>
+                <input type="checkbox" title="" v-model="checkboxSingleValue">多选1
+            </label>
+        </div>
+        <div>
+            <label><input type="checkbox" title="" v-model="checkboxValue" value="1">多选1</label>
+            <label><input type="checkbox" title="" v-model="checkboxValue" value="2">多选2</label>
+            <label><input type="checkbox" title="" v-model="checkboxValue" value="3">多选3</label>
+        </div>
+        <div>
+            <label>
+                <select title="" v-model="selectValue">
+                    <option value="1">选择1</option>
+                    <option value="2">选择2</option>
+                    <option value="3">选择3</option>
+                </select>
+            </label>
+        </div>
+        <div>
+            <label>
+                <select title="" v-model="selectObjValue">
+                    <option :value="{value:1}">选择1</option>
+                    <option :value="{value:2}">选择2</option>
+                    <option :value="{value:3}">选择3</option>
+                </select>
+            </label>
+        </div>
+        <div>
+            <label>
+                <select title="" multiple v-model="selectMoreValue">
+                    <option value="1">选择1</option>
+                    <option value="2">选择2</option>
+                    <option value="3">选择3</option>
+                </select>
+            </label>
+        </div>
+        <div>
+            <label>
+                <textarea v-model="textareaValue"></textarea>
+            </label>
+        </div>
+    </form>
+    <div>
+        {{$data}}
+    </div>
+</div>
+<script src="lib/vue.js"></script>
+<script>
+    /**
+     * 单选框
+     *      绑定值为 valueStr
+     * 单个复选框
+     *      绑定值为 boolean
+     * 多个复选框
+     *      绑定值为 [value,value...]
+     * 选择框单选
+     *      绑定值 valueStr || valueObj || childEleStr
+     * 选择框多选
+     *      绑定值 [valueStr || childEleStr,valueStr || childEleStr...]
+     * */
+    window.vm = new Vue({
+        el: "#app",
+        data: {
+            inputValue: "",
+            textareaValue: "",
+            radioValue: "1",
+            checkboxSingleValue: true,
+            checkboxValue: ["1"],
+            selectValue: "1",
+            selectMoreValue: ["1", "2"],
+            selectObjValue: null
+        },
+        methods: {}
+    });
+</script>
+</body>
+</html>

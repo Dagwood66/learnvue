@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>003-Class与Style.html</title>
+</head>
+<body>
+<div id="app">
+    <ul>
+        <li v-for="(item,index) in arr" :key="index">{{item}}</li>
+    </ul>
+    <ul>
+        <li v-for="value in obj">{{value}}</li>
+        <li v-for="(value,key) in obj">{{key+'-'+value}}</li>
+    </ul>
+</div>
+<script src="lib/vue.js"></script>
+<script>
+    window.vm = new Vue({
+        el: "#app",
+        data: {
+            obj: {
+                key1: "value1",
+                key2: "value2",
+                key3: "value3",
+            },
+            arr: [{
+                key1: "value1",
+                key2: "value2",
+                key3: "value3",
+            }, {
+                key1: "value1",
+                key2: "value2",
+                key3: "value3",
+            }, {
+                key1: "value1",
+                key2: "value2",
+                key3: "value3",
+            }]
+        },
+    });
+</script>
+</body>
+</html>

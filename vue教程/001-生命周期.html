@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>001-生命周期.html</title>
+</head>
+<body>
+<div id="app">
+    <input type="text" title="" v-model="inputValue">
+    <div>
+        {{inputValue}}
+    </div>
+</div>
+<script src="lib/vue.js"></script>
+<script>
+    // TODO 生命周期探索
+    /**
+     * 生命周期无法使用箭头函数
+     * */
+    let vm = new Vue({
+        el: "#app",
+        data: {
+            inputValue: "data数据"
+        },
+        beforeCreate() {
+            console.log("beforeCreate---");
+            console.log("实例初始化之后,数据观测(data observer)和event/watcher事件配置之前被调用");
+            console.log("无法调用methods里的方法");
+            this.test();
+        },
+        created() {
+            console.log("created---");
+            console.log("实例创建完成");
+            console.log("已完成数据观测(data observer),属性和方法的运算,watch/event事件回调");
+            console.log("未进入挂载阶段,$el属性不可见");
+            this.test();
+        },
+        beforeMount() {
+            console.log("beforeMount---");
+            console.log("挂载开始之前被调用,相关的render函数首次被调用");
+            this.test();
+        },
+        mounted() {
+            console.log("mounted---");
+            console.log("已挂载到实例上");
+            console.log("$el已存在");
+            this.test();
+            setTimeout(() => {
+                this.$destroy();
+            }, 5000)
+        },
+        beforeUpdate() {
+            console.log("beforeUpdate---");
+            console.log("dom变化前调用");
+            this.test();
+        },
+        updated() {
+            console.log("updated---");
+            console.log("dom变化后调用");
+            this.test();
+        },
+        activated() {
+            console.log("activated---");
+            this.test();
+        },
+        deactivated() {
+            console.log("deactivated---");
+            this.test();
+        },
+        beforeDestroy() {
+            console.log("beforeDestroy---");
+            console.log("实例销毁前调用");
+            console.log("实例完全可用");
+            this.test();
+        },
+        destroyed() {
+            console.log("destroyed---");
+            console.log("实例销毁后调用");
+            console.log("事件已被移除");
+            console.log("子实例已被销毁");
+            this.test();
+        },
+        errorCaptured() {
+            console.log("errorCaptured---");
+            this.test();
+        },
+        methods: {
+            test() {
+                console.warn("---测试---");
+                console.warn(this.inputValue);
+                console.warn("---End---");
+            }
+        }
+    });
+</script>
+</body>
+</html>

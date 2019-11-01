@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>003-Class与Style.html</title>
+</head>
+<body>
+<div id="app">
+    <div :class="{'active': isActive}"></div>
+    <div :class="['active',classStr]"></div>
+    <div :style="{display: 'flex'}"></div>
+</div>
+<script src="lib/vue.js"></script>
+<script>
+    /**
+     * class
+     *      对象语法
+     *          {"className":boolean}
+     *      数组语法
+     *          ["className",对象,三元表达式]
+     * style(自动添加前缀)
+     *      对象语法(styleName驼峰结构)
+     *          {styleName:styleValue,styleName:styleValue}
+     *      数组语法
+     *          [对象,对象]
+     * */
+    window.vm = new Vue({
+        el: "#app",
+        data: {
+            isActive: false,
+            classStr: "test"
+        },
+    });
+</script>
+</body>
+</html>
