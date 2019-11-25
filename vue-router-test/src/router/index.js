@@ -15,13 +15,17 @@ export default new Router({
             path: '/user/:id',
             name: 'User',
             component: () => import("../pages/User.vue"),
-            children:[{
+            children: [{
                 path: 'profile',
                 component: () => import("../pages/UserPosts.vue"),
-            },{
+            }, {
                 path: 'posts',
                 component: () => import("../pages/UserProfile.vue"),
             }]
+        },
+        { // 重复路由测试
+            path: "/repeat",
+            component: () => import("../pages/Repeat.vue")
         }
     ]
 })
