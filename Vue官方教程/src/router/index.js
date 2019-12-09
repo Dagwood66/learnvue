@@ -19,7 +19,21 @@ let routes = [
         meta: {
             title: "插槽内容",
         }
-    }
+    },
+    {
+        path: '/slotCompilationScope',
+        component: () => import("../pages/SlotCompilationScope.vue"),
+        meta: {
+            title: "编译作用域",
+        }
+    },
+    {
+        path: '/slotFallbackContent',
+        component: () => import("../pages/SlotFallbackContent.vue"),
+        meta: {
+            title: "后备内容",
+        }
+    },
 ];
 
 export const constRoutes = routes;
