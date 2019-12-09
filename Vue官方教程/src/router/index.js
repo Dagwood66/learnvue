@@ -41,6 +41,13 @@ let routes = [
             title: "具名插槽",
         }
     },
+    {
+        path: '/SlotScopedSlots',
+        component: () => import("../views/SlotScopedSlots"),
+        meta: {
+            title: "作用域插槽",
+        }
+    },
 ];
 
 export const constRoutes = routes;
