@@ -7,7 +7,7 @@ let routes = [
     {
         path: '/',
         name: 'Home',
-        component: () => import("../pages/Home.vue"),
+        component: () => import("../views/Home.vue"),
         meta: {
             title: "首页",
             menuHidden: true
@@ -15,23 +15,30 @@ let routes = [
     },
     {
         path: '/slot',
-        component: () => import("../pages/Slot.vue"),
+        component: () => import("../views/Slot.vue"),
         meta: {
             title: "插槽内容",
         }
     },
     {
         path: '/slotCompilationScope',
-        component: () => import("../pages/SlotCompilationScope.vue"),
+        component: () => import("../views/SlotCompilationScope.vue"),
         meta: {
             title: "编译作用域",
         }
     },
     {
         path: '/slotFallbackContent',
-        component: () => import("../pages/SlotFallbackContent.vue"),
+        component: () => import("../views/SlotFallbackContent.vue"),
         meta: {
             title: "后备内容",
+        }
+    },
+    {
+        path: '/slotNamedSlots',
+        component: () => import("../views/SlotNamedSlots.vue"),
+        meta: {
+            title: "具名插槽",
         }
     },
 ];

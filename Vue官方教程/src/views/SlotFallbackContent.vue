@@ -14,12 +14,10 @@
 </template>
 
 <script>
-    import SlotLink from "../components/SlotLink";
-    import SlotLinkNoSlot from "../components/SlotLinkNoSlot";
     import SlotFallbackContentSubmitButton from "../components/SlotFallbackContentSubmitButton";
 
     export default {
-        components: {SlotFallbackContentSubmitButton, SlotLinkNoSlot, SlotLink},
+        components: {SlotFallbackContentSubmitButton},
         data() {
             return {}
         },

@@ -4,15 +4,6 @@
     </div>
 </template>
 
-<script>
-    export default {
-        name: 'App'
-    }
-</script>
+<style lang="less">
 
-<style>
-    body, div {
-        margin: 0;
-        padding: 0;
-    }
 </style>
