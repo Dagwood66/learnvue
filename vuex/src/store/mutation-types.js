@@ -1,1 +1,0 @@
-export const TEST_UPDATE_STATUS = "TEST_UPDATE_STATUS";
